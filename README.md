@@ -3,8 +3,8 @@
 "What is this Job About" is a Google Chrome extension that helps extract critical information from job descriptions. 
 
 See. Here is the situation of the job seekers. 
-Job descriptions are long, but we don't have much time to read through all of them. 
-In our mind, we have criteria for dream jobs, and we only care about the job descriptions that satisfy our criteria. 
+1. Job descriptions are long, but we don't have much time to read through all of them. 
+2. In our mind, we have criteria for dream jobs, and we only care about the job descriptions that satisfy our criteria. 
 
 So. Here is a Google Chrome extension to help you find out whether the one you are browsing is a dream job of you. 
 
