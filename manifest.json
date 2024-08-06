@@ -1,0 +1,22 @@
+{
+    "manifest_version": 3,
+    "name": "What is this job about?",
+    "version": "1.0",
+    "description": "Help you quickly understand job descriptions",
+    "permissions": [
+        "activeTab",
+        "scripting",
+        "storage",
+        "tabs"
+    ],
+    "host_permissions": [
+        "http://*/*", 
+        "https://*/*"
+    ], 
+    "action": {
+        "default_popup": "popup.html"
+    }, 
+    "background": {
+        "service_worker": "background.js"
+    }
+}
