@@ -1,3 +1,6 @@
+/* 
+Function for extrating job title and description from a LinkedIn URL
+*/
 function extractLinkedInJobInfo() {
     let innerHtmlString = document.documentElement.innerHTML;
     let innerHtmlDom = document.createElement('div');
@@ -20,14 +23,11 @@ function extractLinkedInJobInfo() {
         } catch (Error) { }
     }
 
-    let pageUrl = window.location.href;
-    let jobId = pageUrl.slice("https://www.linkedin.com/jobs/view/".length);
-    jobId = jobId.slice(0, jobId.indexOf("/"));
-    jobId = `linkedin_job_${jobId}`; 
+    let storageKey = window.location.href;
     let jobInfo = { job_title, job_description };
 
     let storageEntry = {};
-    storageEntry[jobId] = jobInfo;
+    storageEntry[storageKey] = jobInfo;
 
     console.log(storageEntry);
 
@@ -37,6 +37,9 @@ function extractLinkedInJobInfo() {
 }
 
 
+/*
+Even listener for tab URL changed 
+*/
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (changeInfo.status === 'complete' && tab.url && tab.url.toString().startsWith("http")) {
         let tabUrl = tab.url.toString();

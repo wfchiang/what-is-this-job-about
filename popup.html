@@ -6,13 +6,40 @@
 </head>
 
 <body>
-    <div id="form_openai_api_key">
-        <table><tr>
-            <input type="text" id="input_openai_api_key" size="60" placeholder="OpenAI API Key">
-            <button id="save_openai_api_key">save</button>
-            <button id="reset_openai_api_key">reset</button>
-        </tr></table>
-        <button id="go_analyzing">Go Analyzing!</button>
+    <div id="div_openai_api_key">
+        <h3>OpenAI API Key: </h3>
+        <table>
+            <tr>
+                <td>
+                    <input type="text" id="input_openai_api_key" size="60" placeholder="sk-xxxx" />
+                </td>
+                <td><button id="save_openai_api_key">save</button></td>
+            </tr>
+        </table>
+    </div>
+    <div id="div_job_info">
+        <h3>Job Info: </h3>
+        <table>
+            <tr>
+                <td>Job Title: </td>
+                <td><span id="span_job_title"></span></td>
+            </tr>
+            <tr>
+                <td>Job Description: </td>
+                <td><span id="span_job_description"></span></td>
+            </tr>
+        </table>
+    </div>
+    <div id="div_user_questions">
+        <h3>User Questions: </h3>
+        <textarea id="textarea_user_questions" rows="6" cols="75"></textarea>
+        <button id="save_user_questions">save</button>
+    </div>
+    <hr/>
+    <button id="go_analyzing">Go Analyzing!</button>
+    <div id="div_llm_answers">
+        <h3>LLM Answers: </h3>
+        <span id="span_llm_answers"></span>
     </div>
     <script src="popup.js"></script>
 </body>
