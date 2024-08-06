@@ -33,7 +33,7 @@ document.getElementById("go_analyzing").addEventListener('click', () => {
             chrome.storage.local.get([pageUrlAsStorageKey, "user_questions"], (result) => {
                 let jobInfo = result[pageUrlAsStorageKey];
 
-                let llmPrompt = `I am hunting for my next job. I found a job description, and I have several questions of it. \nHere are the questions: \n${result.user_questions} \n\nPlease concisely answer the questions based on the following job description: \n${jobInfo.job_title} -- ${jobInfo.job_description} `; 
+                let llmPrompt = `I am hunting for my next job. I found a job description, and I have several questions of it. \nHere are the questions: \n${result.user_questions} \n\nAnswer the questions by first repeating the question and then the short respond. Answer the questions shortly but concisely based on the following job description: \n${jobInfo.job_title} -- ${jobInfo.job_description} `; 
                 console.log(`[LLM Prompt] ${llmPrompt}`); 
 
                 if (jobInfo) {
