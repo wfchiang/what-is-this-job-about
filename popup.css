@@ -1,0 +1,17 @@
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 0 auto;
+    border: 2px solid lightgray;
+}
+
+td {
+    vertical-align: top;
+    border: 2px solid lightgray;
+}
+
+.fixed-height-container {
+    height: 100px;
+    overflow-y: scroll;
+    padding: 10px;
+}

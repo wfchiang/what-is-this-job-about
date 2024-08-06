@@ -3,6 +3,7 @@
 
 <head>
     <title>What is this job about...?</title>
+    <link rel="stylesheet" href="popup.css">
 </head>
 
 <body>
@@ -19,23 +20,25 @@
     </div>
     <div id="div_job_info">
         <h3>Job Info: </h3>
-        <table>
-            <tr>
-                <td>Job Title: </td>
-                <td><span id="span_job_title"></span></td>
-            </tr>
-            <tr>
-                <td>Job Description: </td>
-                <td><span id="span_job_description"></span></td>
-            </tr>
-        </table>
+        <div class="fixed-height-container">
+            <table>
+                <tr>
+                    <td>Job Title: </td>
+                    <td><span id="span_job_title"></span></td>
+                </tr>
+                <tr>
+                    <td>Job Description: </td>
+                    <td><span id="span_job_description"></span></td>
+                </tr>
+            </table>
+        </div>
     </div>
     <div id="div_user_questions">
         <h3>User Questions: </h3>
         <textarea id="textarea_user_questions" rows="6" cols="75"></textarea>
         <button id="save_user_questions">save</button>
     </div>
-    <hr/>
+    <hr />
     <button id="go_analyzing">Go Analyzing!</button>
     <div id="div_llm_answers">
         <h3>LLM Answers: </h3>
