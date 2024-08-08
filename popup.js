@@ -1,3 +1,10 @@
+// Some util functions 
+function isAcceptedUrl(url) {
+    return (url.startsWith("https://www.linkedin.com/jobs/view/")
+        || url.startsWith("https://www.glassdoor.com/job-listing/")
+    );
+};
+
 // Set the OpenAI API Key 
 chrome.storage.local.get(['openai_api_key'], (result) => {
     if (result.openai_api_key) {
@@ -29,12 +36,12 @@ document.getElementById("go_analyzing").addEventListener('click', () => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         const pageUrlAsStorageKey = tabs[0].url;
 
-        if (pageUrlAsStorageKey.startsWith("https://www.linkedin.com/jobs/view/")) {
+        if (isAcceptedUrl(pageUrlAsStorageKey)) {
             chrome.storage.local.get([pageUrlAsStorageKey, "user_questions"], (result) => {
                 let jobInfo = result[pageUrlAsStorageKey];
 
-                let llmPrompt = `I am hunting for my next job. I found a job description, and I have several questions of it. \nHere are the questions: \n${result.user_questions} \n\nAnswer the questions by first repeating the question and then the short respond. Answer the questions shortly but concisely based on the following job description: \n${jobInfo.job_title} -- ${jobInfo.job_description} `; 
-                console.log(`[LLM Prompt] ${llmPrompt}`); 
+                let llmPrompt = `I am hunting for my next job. I found a job description, and I have several questions of it. \nHere are the questions: \n${result.user_questions} \n\nAnswer the questions by first repeating the question and then the short respond. Answer the questions shortly but concisely based on the following job description: \n${jobInfo.job_title} -- ${jobInfo.job_description} `;
+                console.log(`[LLM Prompt] ${llmPrompt}`);
 
                 if (jobInfo) {
                     fetch(
@@ -49,7 +56,7 @@ document.getElementById("go_analyzing").addEventListener('click', () => {
                                 "model": "gpt-3.5-turbo",
                                 "messages": [
                                     {
-                                        "role": "user", 
+                                        "role": "user",
                                         "content": llmPrompt
                                     }
                                 ]
@@ -63,12 +70,12 @@ document.getElementById("go_analyzing").addEventListener('click', () => {
                             return response.json();
                         })
                         .then(jsonData => {
-                            let llmAnswers = jsonData.choices[0].message.content; 
+                            let llmAnswers = jsonData.choices[0].message.content;
                             llmAnswers = llmAnswers.replace(/(\d+)\./g, '\n$1.');
                             llmAnswers = llmAnswers.replace(/(\n+)/g, '\n');
-                            llmAnswers = llmAnswers.trim(); 
+                            llmAnswers = llmAnswers.trim();
                             llmAnswers = llmAnswers.replace(/\n/g, '<br/><br/>');
-                            document.getElementById("span_llm_answers").innerHTML = llmAnswers; 
+                            document.getElementById("span_llm_answers").innerHTML = llmAnswers;
                         })
                         .catch(error => {
                             console.error('Error on calling OpenAI:', error);
@@ -85,7 +92,7 @@ function updateJobInfo() {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         const pageUrlAsStorageKey = tabs[0].url;
 
-        if (pageUrlAsStorageKey.startsWith("https://www.linkedin.com/jobs/view/")) {
+        if (isAcceptedUrl(pageUrlAsStorageKey)) {
             chrome.storage.local.get([pageUrlAsStorageKey], (result) => {
                 let jobInfo = result[pageUrlAsStorageKey];
                 document.getElementById("span_job_title").textContent = jobInfo.job_title;
@@ -96,3 +103,35 @@ function updateJobInfo() {
 }
 
 setInterval(updateJobInfo, 1000);
+
+// Periodically remove the old entries from chrome.storage.local 
+function removeOldStorageEntry() {
+    console.log("Cleaning up chrome.storage.local...");
+
+    chrome.storage.local.get(null, (items) => {
+        let nowTime = Date.now();
+
+        // Delete entries with keys starting with "temp_"
+        let keysToDelete = [];
+        for (const key in items) {
+            if (isAcceptedUrl(key)) {
+                let jobInfo = items[key];
+                if (!jobInfo.hasOwnProperty("timestamp") || (nowTime - jobInfo.timestamp) > 3600000) {
+                    keysToDelete.push(key);
+                }
+            }
+        }
+
+        console.log(`${keysToDelete.length} entries to be deleted...`);
+
+        // Update storage with modified entries
+        chrome.storage.local.remove(keysToDelete, (result) => {
+            if (chrome.runtime.lastError) {
+                console.error("Error removing item from storage:", chrome.runtime.lastError.message);
+            }
+        });
+    });
+
+};
+
+setInterval(removeOldStorageEntry, 5000); 
