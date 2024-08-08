@@ -11,8 +11,8 @@ So. Here is a Google Chrome extension to help you find out whether the one you a
 ### Supported Job Boards and Limitations  
 
 Here are the currently supported job boards: 
-* LinkedIn with URLs start with `https://www.linkedin.com/jobs/view`
-* Glassdoor with URLs start with `https://www.glassdoor.com/job-listing/` 
+* **LinkedIn** with URLs start with `https://www.linkedin.com/jobs/view`
+* **Glassdoor** with URLs start with `https://www.glassdoor.com/job-listing/` 
 
 ### Installation 
 
