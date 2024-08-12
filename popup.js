@@ -2,6 +2,7 @@
 function isAcceptedUrl(url) {
     return (url.startsWith("https://www.linkedin.com/jobs/view/")
         || url.startsWith("https://www.glassdoor.com/job-listing/")
+        || url.startsWith("https://www.indeed.com/viewjob?")
     );
 };
 
