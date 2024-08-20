@@ -18,10 +18,54 @@ document.getElementById("save_openai_api_key").addEventListener('click', () => {
     chrome.storage.local.set({ openai_api_key: document.getElementById('input_openai_api_key').value.trim() }, () => { });
 });
 
+// Set expanding/collapsing openai api key section 
+document.getElementById("div_header_openai_api_key").addEventListener('click', () => {
+    let iconHeaderOpenaiApiKey = document.getElementById("icon_header_openai_api_key"); 
+    let divHeaderOpenaiApiKey = document.getElementById("div_header_openai_api_key"); 
+    let divContentOpenaiApiKey = document.getElementById("div_content_openai_api_key"); 
+
+    let currentStatus = divHeaderOpenaiApiKey.getAttribute("class"); 
+    if (currentStatus == "div-indicates-expanded") {
+        iconHeaderOpenaiApiKey.setAttribute("class", "fa-solid fa-caret-up"); 
+        divHeaderOpenaiApiKey.setAttribute("class", "div-indicates-collapsed"); 
+        divContentOpenaiApiKey.setAttribute("class", "div-content-collapsed"); 
+    }
+    else if (currentStatus == "div-indicates-collapsed") {
+        iconHeaderOpenaiApiKey.setAttribute("class", "fa-solid fa-caret-down"); 
+        divHeaderOpenaiApiKey.setAttribute("class", "div-indicates-expanded"); 
+        divContentOpenaiApiKey.setAttribute("class", "div-content-expanded"); 
+    }
+    else {
+        console.error("Invalid class of div_header_openai_api_key: ", currentStatus); 
+    }
+}); 
+
 // Set the user questions 
 chrome.storage.local.get(['user_questions'], (result) => {
     if (result.user_questions) {
         document.getElementById("textarea_user_questions").value = result.user_questions;
+    }
+});
+
+// Set expanding/collapsing the user question section 
+document.getElementById("div_header_user_questions").addEventListener('click', () => {
+    let iconHeaderUserQuestions = document.getElementById("icon_header_user_questions"); 
+    let divHeaderUserQuestions = document.getElementById("div_header_user_questions"); 
+    let divContentUserQuestions = document.getElementById("div_content_user_questions"); 
+
+    let currentStatus = divHeaderUserQuestions.getAttribute("class"); 
+    if (currentStatus == "div-indicates-expanded") {
+        iconHeaderUserQuestions.setAttribute("class", "fa-solid fa-caret-up"); 
+        divHeaderUserQuestions.setAttribute("class", "div-indicates-collapsed"); 
+        divContentUserQuestions.setAttribute("class", "div-content-collapsed"); 
+    }
+    else if (currentStatus == "div-indicates-collapsed") {
+        iconHeaderUserQuestions.setAttribute("class", "fa-solid fa-caret-down"); 
+        divHeaderUserQuestions.setAttribute("class", "div-indicates-expanded"); 
+        divContentUserQuestions.setAttribute("class", "div-content-expanded"); 
+    }
+    else {
+        console.error("Invalid class of div_header_user_questions: ", currentStatus); 
     }
 });
 

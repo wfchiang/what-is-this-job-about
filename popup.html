@@ -4,45 +4,61 @@
 <head>
     <title>What is this job about...?</title>
     <link rel="stylesheet" href="popup.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 </head>
 
 <body>
-    <div id="div_openai_api_key">
-        <h3>OpenAI API Key: </h3>
-        <table>
-            <tr>
-                <td>
-                    <input type="text" id="input_openai_api_key" size="60" placeholder="sk-xxxx" />
-                </td>
-                <td><button id="save_openai_api_key">save</button></td>
-            </tr>
-        </table>
-    </div>
-    <div id="div_job_info">
-        <h3>Job Info: </h3>
-        <div class="fixed-height-container">
-            <table>
-                <tr>
-                    <td>Job Title: </td>
-                    <td><span id="span_job_title"></span></td>
-                </tr>
-                <tr>
-                    <td>Job Description: </td>
-                    <td><span id="span_job_description"></span></td>
-                </tr>
-            </table>
+    <div id="div_html_body" style="overflow-x: hidden;">
+        <div class="div-title">
+            <h2 style="width: 800px;">Let LLM tell you what is this job about...</h2>
         </div>
-    </div>
-    <div id="div_user_questions">
-        <h3>User Questions: </h3>
-        <textarea id="textarea_user_questions" rows="6" cols="75"></textarea>
-        <button id="save_user_questions">save</button>
-    </div>
-    <hr />
-    <button id="go_analyzing">Go Analyzing!</button>
-    <div id="div_llm_answers">
-        <h3>LLM Answers: </h3>
-        <span id="span_llm_answers"></span>
+        <div id="div_openai_api_key" class="div-content-expanded">
+            <div id="div_header_openai_api_key" class="div-indicates-collapsed">
+                <h3><i id="icon_header_openai_api_key" class="fa-solid fa-caret-up"></i> OpenAI API Key:</h3>
+            </div>
+            <div id="div_content_openai_api_key" class="div-content-collapsed">
+                <table>
+                    <tr>
+                        <td>
+                            <input type="text" id="input_openai_api_key" size="60" placeholder="sk-xxxx" />
+                        </td>
+                        <td><button id="save_openai_api_key">save</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div id="div_job_info">
+            <h3>Job Info: </h3>
+            <div class="fixed-height-container">
+                <table>
+                    <tr>
+                        <td>Job Title: </td>
+                        <td><span id="span_job_title"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Job Description: </td>
+                        <td><span id="span_job_description"></span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div id="div_user_questions" class="div-content-expanded">
+            <div id="div_header_user_questions" class="div-indicates-collapsed">
+                <h3><i id="icon_header_user_questions" class="fa-solid fa-caret-up"></i> User Questions:</h3>
+            </div>
+            <div id="div_content_user_questions" class="div-content-collapsed">
+                <textarea id="textarea_user_questions" rows="6" cols="75"></textarea>
+                <button id="save_user_questions">save</button>
+            </div>
+        </div>
+        <hr />
+        <div id="div_go_analyzing" class="div-content-expanded">
+            <button id="go_analyzing" class="button-go-analyzing">Go Analyzing!</button>
+        </div>
+        <div id="div_llm_answers">
+            <h3>LLM Answers: </h3>
+            <span id="span_llm_answers"></span>
+        </div>
     </div>
     <script src="popup.js"></script>
 </body>
