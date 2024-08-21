@@ -82,7 +82,7 @@ document.getElementById("go_analyzing").addEventListener('click', () => {
         const pageUrlAsStorageKey = tabs[0].url;
 
         if (isAcceptedUrl(pageUrlAsStorageKey)) {
-            chrome.storage.local.get([pageUrlAsStorageKey, "user_questions"], (result) => {
+            chrome.storage.local.get([pageUrlAsStorageKey, "user_questions", "llm_answers"], (result) => {
                 let jobInfo = result[pageUrlAsStorageKey];
 
                 let llmPrompt = `I am hunting for my next job. I found a job description, and I have several questions of it. \nHere are the questions: \n${result.user_questions} \n\nAnswer the questions by first repeating the question and then the short respond. Answer the questions shortly but concisely based on the following job description: \n${jobInfo.job_title} -- ${jobInfo.job_description} `;
@@ -119,8 +119,16 @@ document.getElementById("go_analyzing").addEventListener('click', () => {
                             llmAnswers = llmAnswers.replace(/(\d+)\./g, '\n$1.');
                             llmAnswers = llmAnswers.replace(/(\n+)/g, '\n');
                             llmAnswers = llmAnswers.trim();
-                            llmAnswers = llmAnswers.replace(/\n/g, '<br/><br/>');
-                            document.getElementById("span_llm_answers").innerHTML = llmAnswers;
+
+                            let newLlmAnswers = result["llm_answers"]; 
+                            if (newLlmAnswers) {
+                                newLlmAnswers[pageUrlAsStorageKey] = llmAnswers; 
+                            }
+                            else {
+                                newLlmAnswers = {pageUrlAsStorageKey: llmAnswers}; 
+                            } 
+                            
+                            chrome.storage.local.set({"llm_answers": newLlmAnswers}, () => {}); 
                         })
                         .catch(error => {
                             console.error('Error on calling OpenAI:', error);
@@ -138,10 +146,19 @@ function updateJobInfo() {
         const pageUrlAsStorageKey = tabs[0].url;
 
         if (isAcceptedUrl(pageUrlAsStorageKey)) {
-            chrome.storage.local.get([pageUrlAsStorageKey], (result) => {
+            chrome.storage.local.get([pageUrlAsStorageKey, "llm_answers"], (result) => {
                 let jobInfo = result[pageUrlAsStorageKey];
                 document.getElementById("span_job_title").textContent = jobInfo.job_title;
                 document.getElementById("span_job_description").textContent = jobInfo.job_description;
+
+                if (result["llm_answers"] && result["llm_answers"][pageUrlAsStorageKey]) {
+                    let llmAnswers = result["llm_answers"][pageUrlAsStorageKey].replace(/\n/g, '<br/><br/>');
+                    document.getElementById("span_llm_answers").innerHTML = llmAnswers; 
+                    document.getElementById("div_llm_answers").setAttribute("class", "div-content-expanded"); 
+                }
+                else {
+                    document.getElementById("div_llm_answers").setAttribute("class", "div-content-collapsed"); 
+                }
             });
         }
     });
