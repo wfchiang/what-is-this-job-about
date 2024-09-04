@@ -31,3 +31,7 @@ How to use the extension?
 7. Be patient and wait for the LLM answer(s). Do not close the extension popup. 
 
 Good luck for your job hunting! 
+
+### Screenshot(s) 
+
+![](./screenshot_1.png)
